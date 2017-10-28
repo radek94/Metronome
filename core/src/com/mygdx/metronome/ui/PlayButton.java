@@ -21,7 +21,7 @@ public class PlayButton extends Button{
 		this.setHeight(70);
 		this.setX(190);
 		this.setY(300);
-		this.setDebug(true);	
+		this.setDebug(false);	
 	}
 
 	private static ButtonStyle preparePlayButtonStylePlay(){
@@ -33,13 +33,4 @@ public class PlayButton extends Button{
 		skin.add("", buttonStyle);
 		return buttonStyle;
 	}
-	
-//	private static ButtonStyle preparePlayButtonStyleStop(){
-//		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("vhs-ui.atlas"));
-//		Skin skin = new Skin(atlas);
-//		ButtonStyle buttonStyle = new ButtonStyle();
-//		buttonStyle.up = skin.getDrawable("label-play");
-//		buttonStyle.down = skin.getDrawable("label-pause");
-//		return buttonStyle;
-//	}
 }

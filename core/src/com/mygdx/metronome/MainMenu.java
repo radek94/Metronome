@@ -101,22 +101,11 @@ public class MainMenu extends Game implements Screen{
 		stage.act();
 	}
 	
-	public void playSound(){
-		getBpmSound().play();
-	}
 	
 	@Override
 	public void dispose () {
 		spriteBatch.dispose();
 		bpmSound.dispose();
-	}
-
-	public void setBpmSound(Sound bpmSound){
-		this.bpmSound = bpmSound;
-	}
-	
-	public Sound getBpmSound(){
-		return bpmSound;
 	}
 	
 	@Override
