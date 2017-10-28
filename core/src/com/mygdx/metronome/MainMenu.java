@@ -16,16 +16,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.metronome.ui.PlayButton;
+import com.mygdx.metronome.ui.StopButton;
 
 public class MainMenu extends Game implements Screen{
 	
-	private MainMenu menu;
 	private boolean isPaused;
-	
-	private int bpm = 60;
+
+	private float bpm = 120;
 	private Sound bpmSound;
 	
-	private Button playButton, stopButton;
+	private StopButton stopButton;
+	private PlayButton playButton;
 	
 	public final static String NAME = "Metronome";
 	
@@ -41,28 +43,45 @@ public class MainMenu extends Game implements Screen{
 		bpmSound = Gdx.audio.newSound(Gdx.files.internal("bpm.wav"));
 		stage = new Stage(new StretchViewport(MainMenu.WIDTH, MainMenu.HEIGHT));
 		Gdx.input.setInputProcessor(stage);
+		init();	
+	}
+
+	private void init() {
 		initPlayButton();
+		initStopButton();
+	}
+
+	private void initStopButton() {
+		stopButton = new StopButton();
+		stage.addActor(stopButton);
+		
+		stopButton.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					Timer.instance().clear();
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+	}
+	
+	public void stopSound(){
+		
 	}
 
 	private void initPlayButton() {
-		playButton = new Button(new ButtonStyle());
-		playButton.setWidth(100);
-		playButton.setHeight(100);
-		playButton.setX(190);
-		playButton.setY(300);
-		playButton.setDebug(true);
+		playButton = new PlayButton();
 		stage.addActor(playButton);
 		
 		playButton.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+			
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {								
 					Timer.schedule(new Task() {
-						
+					
 						@Override
 						public void run() {
 							bpmSound.play();
 						}
-					}, 0, 1);
+					}, 0, (60/bpm));
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
@@ -71,7 +90,7 @@ public class MainMenu extends Game implements Screen{
 	@Override
 	public void render () {
 		update();
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.begin();
 		stage.draw();
@@ -82,12 +101,24 @@ public class MainMenu extends Game implements Screen{
 		stage.act();
 	}
 	
+	public void playSound(){
+		getBpmSound().play();
+	}
+	
 	@Override
 	public void dispose () {
 		spriteBatch.dispose();
 		bpmSound.dispose();
 	}
 
+	public void setBpmSound(Sound bpmSound){
+		this.bpmSound = bpmSound;
+	}
+	
+	public Sound getBpmSound(){
+		return bpmSound;
+	}
+	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
