@@ -1,13 +1,9 @@
 package com.mygdx.metronome.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.mygdx.metronome.MainMenu;
 
 public class PlayButton extends Button{
 		
@@ -18,10 +14,9 @@ public class PlayButton extends Button{
 
 	private void init() {
 		this.setWidth(70);
-		this.setHeight(70);
-		this.setX(190);
+		this.setHeight(50);
+		this.setX(160);
 		this.setY(300);
-		this.setDebug(false);	
 	}
 
 	private static ButtonStyle preparePlayButtonStylePlay(){

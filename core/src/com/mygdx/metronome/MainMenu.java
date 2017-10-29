@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -52,6 +51,7 @@ public class MainMenu extends Game implements Screen{
 	
 	@Override
 	public void create () {
+		skin = new Skin(Gdx.files.internal("vhs-ui.json"));
 		spriteBatch = new SpriteBatch();
 		bpmSound = Gdx.audio.newSound(Gdx.files.internal("bpm.wav"));
 		stage = new Stage(new StretchViewport(MainMenu.WIDTH, MainMenu.HEIGHT));
@@ -70,42 +70,53 @@ public class MainMenu extends Game implements Screen{
 	private void initBpmLabel() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = new BitmapFont();
-		bpmLabel = new Label("", labelStyle);
-		bpmLabel.setX(20);
-		bpmLabel.setY(400);
+		bpmLabel = new Label("", skin);
+		bpmLabel.setX(190);
+		bpmLabel.setY(600);
+		bpmLabel.setWidth(100);
+		bpmLabel.setHeight(50);
 		stage.addActor(bpmLabel);	
 	}
 
 	private void initLessBpmButton() {
-		lessBpmButton = new LessBpm();
+		lessBpmButton = new LessBpm("-", skin);
 		stage.addActor(lessBpmButton);
 		
 		lessBpmButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				setMoreBpm(false);
-				changeBpm();
+//				setMoreBpm(false);
+				isButtonClicked=true;
+				
+				bpm--;
+				
 				return super.touchDown(event, x, y, pointer, button);
+			}
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				isButtonClicked=false;
+				super.touchUp(event, x, y, pointer, button);
 			}
 		});		
 	}
 
 	private void initMoreBpmButton() {
-		moreBpmButton = new MoreBpm();
+		moreBpmButton = new MoreBpm("+", skin);
 		stage.addActor(moreBpmButton);
 		
 		moreBpmButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				setMoreBpm(true);
-				changeBpm();
+//				setMoreBpm(true);
+				setBpm(bpm);
+				bpm++;
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
 	}
 
 	protected void changeBpm() {
-		if(isMoreBpm()){
+		if(isButtonClicked){
 			bpm++;
 		}
 		else{
@@ -121,7 +132,8 @@ public class MainMenu extends Game implements Screen{
 		stopButton.addListener(new ClickListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-					Timer.instance().clear();
+				playButton.setTouchable(Touchable.enabled);
+				Timer.instance().clear();
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
@@ -138,7 +150,7 @@ public class MainMenu extends Game implements Screen{
 		playButton.addListener(new ClickListener(){
 			
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				isButtonClicked = true;
+				setButtonClicked(true);
 				playButton.setTouchable(Touchable.disabled);
 					Timer.schedule(new Task() {
 					
@@ -175,7 +187,7 @@ public class MainMenu extends Game implements Screen{
 	}
 	
 	public void update(){
-		bpmLabel.setText(""+ getBpm());
+		bpmLabel.setText(""+ (int)getBpm());
 		stage.act();
 	}
 	
@@ -226,5 +238,13 @@ public class MainMenu extends Game implements Screen{
 
 	public void setMoreBpm(boolean isMoreBpm) {
 		this.isMoreBpm = isMoreBpm;
+	}
+
+	public boolean isButtonClicked() {
+		return isButtonClicked;
+	}
+
+	public void setButtonClicked(boolean isButtonClicked) {
+		this.isButtonClicked = isButtonClicked;
 	}
 }
