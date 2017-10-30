@@ -1,8 +1,11 @@
 package com.mygdx.metronome.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.metronome.MainMenu;
+import com.mygdx.metronome.ui.BpmTextField;
 import com.mygdx.metronome.ui.CancelButton;
 import com.mygdx.metronome.ui.OkButton;
 
@@ -11,14 +14,25 @@ public class BpmScreen extends AbstractScreen{
 	private OkButton okButton;
 	private CancelButton cancelButton;
 
+	private BpmTextField txfBpmChange;
+	
+	private Skin skin;
+	
 	public BpmScreen(MainMenu menu) {
 		super(menu);
+		skin = new Skin(Gdx.files.internal("vhs-ui.json"));
 		init();
 	}
 	
 	private void init() {
 		initOkButton();	
 		initCancelButton();
+		initTxfBpmChange();
+	}
+
+	private void initTxfBpmChange() {
+		txfBpmChange = new BpmTextField("", skin);
+		stage.addActor(txfBpmChange);
 	}
 
 	private void initCancelButton() {
