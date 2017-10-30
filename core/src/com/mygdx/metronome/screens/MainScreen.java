@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.metronome.MainMenu;
+import com.mygdx.metronome.ui.BpmButton;
 import com.mygdx.metronome.ui.LessBpm;
 import com.mygdx.metronome.ui.MoreBpm;
 import com.mygdx.metronome.ui.PlayButton;
@@ -34,6 +35,7 @@ public class MainScreen extends AbstractScreen{
 	private Skin skin;
 	private StopButton stopButton;
 	private PlayButton playButton;
+	private BpmButton changeBpmButton;
 	private MoreBpm moreBpmButton;
 	private LessBpm lessBpmButton;
 	
@@ -51,8 +53,22 @@ public class MainScreen extends AbstractScreen{
 		initMoreBpmButton();
 		initLessBpmButton();
 		initBpmLabel();
+		initchangeBpmButton();
 	}
 	
+	private void initchangeBpmButton() {
+		changeBpmButton = new BpmButton();
+		stage.addActor(changeBpmButton);
+		
+		changeBpmButton.addListener(new ClickListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				menu.setScreen(new BpmScreen(menu));
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+	}
+
 	private void initBpmLabel() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = new BitmapFont();
