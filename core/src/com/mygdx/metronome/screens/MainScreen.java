@@ -40,8 +40,10 @@ public class MainScreen extends AbstractScreen{
 	private LessBpm lessBpmButton;
 	
 	
-	public MainScreen(MainMenu menu){
+	public MainScreen(MainMenu menu, float bpm){
 		super(menu);
+		this.bpmLabel = bpmLabel;
+		this.bpm = bpm;
 		skin = new Skin(Gdx.files.internal("vhs-ui.json"));
 		bpmSound = Gdx.audio.newSound(Gdx.files.internal("bpm.wav"));
 		init();
@@ -141,7 +143,7 @@ public class MainScreen extends AbstractScreen{
 						public void run() {
 							bpmSound.play();
 						}
-					}, 0, (60/bpm));
+					}, 0, (60/getBpm()));
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
@@ -161,8 +163,16 @@ public class MainScreen extends AbstractScreen{
 	}
 	
 	public void update(){
-		bpmLabel.setText(""+ (int)getBpm());
+		getBpmLabel().setText(""+ (int)getBpm());
 		stage.act();
+	}
+	
+	public void setBpmLabel(Label bpmLabel){
+		this.bpmLabel = bpmLabel;
+	}
+	
+	public Label getBpmLabel(){
+		return bpmLabel;
 	}
 	
 	public void setBpm(float bpm){

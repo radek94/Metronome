@@ -36,7 +36,7 @@ public class MainMenu extends Game{
 	
 	@Override
 	public void create () {
-		this.setScreen(new MainScreen(this));
+		this.setScreen(new MainScreen(this, 60));
 	}
 
 
