@@ -57,7 +57,6 @@ public class MainScreen extends AbstractScreen{
 		initLessBpmButton();
 		initBpmLabel();
 		initchangeBpmButton();
-		initMetreButton();
 		initSlider();
 	}
 	
@@ -76,22 +75,7 @@ public class MainScreen extends AbstractScreen{
 			}
 		});
 	}
-
-	private void initMetreButton() {
-		metreButton = new Button(new ButtonStyle());
-		metreButton.setBounds(190, 450, 100, 50);
-		metreButton.setDebug(true);
-		stage.addActor(metreButton);
-		
-		metreButton.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				menu.setScreen(new MetreScreen(menu));
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-	}
-
+	
 	private void initchangeBpmButton() {
 		changeBpmButton = new Button(new ButtonStyle());
 		changeBpmButton.setBounds(190, 600, 100, 50);
