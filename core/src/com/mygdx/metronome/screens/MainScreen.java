@@ -27,7 +27,6 @@ public class MainScreen extends AbstractScreen{
 	
 	private boolean isButtonClicked;
 	private boolean isMoreBpm;
-	private boolean isRunning;
 	
 	private float bpm=120;
 	private Sound bpmSound;
@@ -37,7 +36,7 @@ public class MainScreen extends AbstractScreen{
 	private Slider slider;
 	private StopButton stopButton;
 	private PlayButton playButton;
-	private Button changeBpmButton, metreButton;
+	private Button changeBpmButton;
 	private MoreBpm moreBpmButton;
 	private LessBpm lessBpmButton;
 	
@@ -105,8 +104,7 @@ public class MainScreen extends AbstractScreen{
 		
 		lessBpmButton.addListener(new ClickListener(){
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				isButtonClicked=true;				
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {			
 				bpm--;				
 				return super.touchDown(event, x, y, pointer, button);
 			}
@@ -119,8 +117,7 @@ public class MainScreen extends AbstractScreen{
 		
 		moreBpmButton.addListener(new ClickListener(){
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {			
 				bpm++;
 				return super.touchDown(event, x, y, pointer, button);
 			}
@@ -136,7 +133,6 @@ public class MainScreen extends AbstractScreen{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				playButton.setTouchable(Touchable.enabled);
-				isRunning = false;
 				Timer.instance().clear();
 				stopButton.setVisible(false);
 				playButton.setVisible(true);
@@ -155,7 +151,6 @@ public class MainScreen extends AbstractScreen{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				setButtonClicked(true);
 				playButton.setTouchable(Touchable.disabled);
-				isRunning = true;
 				playButton.setVisible(false);
 				stopButton.setVisible(true);
 					Timer.schedule(new Task() {
@@ -191,13 +186,25 @@ public class MainScreen extends AbstractScreen{
 	}
 	
 	public void checkMoreBpmButton(){
-		if(getBpm()>=MAX_BPM || getBpm()<=MIN_BPM) moreBpmButton.setTouchable(Touchable.disabled);
-		else moreBpmButton.setTouchable(Touchable.enabled);
+		if(getBpm()>=MAX_BPM){
+			moreBpmButton.setDisabled(true);
+			moreBpmButton.setTouchable(Touchable.disabled);
+		}
+		else{
+			moreBpmButton.setDisabled(false);
+			moreBpmButton.setTouchable(Touchable.enabled);
+		}
 	}
 	
 	public void checkLessBpmButton(){
-		if(getBpm()<=MIN_BPM) lessBpmButton.setTouchable(Touchable.disabled);
-		else lessBpmButton.setTouchable(Touchable.enabled);
+		if(getBpm()<=MIN_BPM){
+			lessBpmButton.setDisabled(true);
+			lessBpmButton.setTouchable(Touchable.disabled);
+		}
+		else{
+			lessBpmButton.setDisabled(false);
+			lessBpmButton.setTouchable(Touchable.enabled);
+		}
 	}
 	
 	public void setBpmLabel(Label bpmLabel){

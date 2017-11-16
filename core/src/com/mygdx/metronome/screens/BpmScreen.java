@@ -210,10 +210,19 @@ public class BpmScreen extends AbstractScreen{
 	private void checkTextField(){
 		if(!txfBpmChange.getText().equals("")){
 			float bpmDigits = Float.parseFloat(txfBpmChange.getText());
-			if(bpmDigits>MainScreen.MAX_BPM || bpmDigits<MainScreen.MIN_BPM) okButton.setTouchable(Touchable.disabled);
-			else okButton.setTouchable(Touchable.enabled);
+			if(bpmDigits>MainScreen.MAX_BPM || bpmDigits<MainScreen.MIN_BPM){
+				okButton.setDisabled(true);
+				okButton.setTouchable(Touchable.disabled);
+			}
+			else{
+				okButton.setDisabled(false);
+				okButton.setTouchable(Touchable.enabled);
+			}
 		}
-		else okButton.setTouchable(Touchable.disabled);	
+		else{
+			okButton.setDisabled(true);
+			okButton.setTouchable(Touchable.disabled);	
+		}
 	}
 	
 
