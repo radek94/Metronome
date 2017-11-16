@@ -2,6 +2,7 @@ package com.mygdx.metronome;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,18 +28,15 @@ public class MainMenu extends Game{
 	
 	private boolean paused;
 	
-	
 	public final static String NAME = "Metronome";
 	
 	public final static int WIDTH = 480;
 	public final static int HEIGHT = 700;
-
-	
+		
 	@Override
 	public void create () {
 		this.setScreen(new MainScreen(this, 60));
 	}
-
 
 	public boolean isPaused() {
 		return paused;
