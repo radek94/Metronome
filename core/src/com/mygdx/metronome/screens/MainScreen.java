@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.metronome.MainMenu;
+import com.mygdx.metronome.ui.ClickCallBack;
 import com.mygdx.metronome.ui.LessBpm;
 import com.mygdx.metronome.ui.MoreBpm;
 import com.mygdx.metronome.ui.PlayButton;
@@ -28,7 +29,7 @@ public class MainScreen extends AbstractScreen{
 	private boolean isButtonClicked;
 	private boolean isMoreBpm;
 	
-	private float bpm=120;
+	private float bpm;
 	private Sound bpmSound;
 	
 	private Label bpmLabel;
@@ -59,20 +60,57 @@ public class MainScreen extends AbstractScreen{
 		initSlider();
 	}
 	
-	private void initSlider() {
-		slider = new Slider(MainScreen.MIN_BPM, MainScreen.MAX_BPM, 1, false, skin);
-		slider.setBounds(100, 500, 200, 50);
-		stage.addActor(slider);
-		slider.setValue(getBpm());
-		
-		slider.addListener(new ChangeListener() {
+	private void initPlayButton() {
+		playButton = new PlayButton(new ClickCallBack() {
 			
 			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				setBpm((int)slider.getValue());
-				
+			public void onClick() {
+				playButton.setTouchable(Touchable.disabled);
+				playButton.setVisible(false);
+				stopButton.setVisible(true);
+					Timer.schedule(new Task() {
+					
+						@Override
+						public void run() {
+							bpmSound.play();
+						}
+					}, 0, (60/getBpm()));
 			}
 		});
+		stage.addActor(playButton);
+		playButton.setVisible(true);
+	}
+	
+	private void initStopButton() {
+		stopButton = new StopButton(new ClickCallBack() {
+			
+			@Override
+			public void onClick() {
+				playButton.setTouchable(Touchable.enabled);
+				Timer.instance().clear();
+				stopButton.setVisible(false);
+				playButton.setVisible(true);
+			}
+		});
+		stage.addActor(stopButton);
+		stopButton.setVisible(false);
+	}
+	
+	private void initMoreBpmButton() {
+		moreBpmButton = new MoreBpm("+", skin, () -> bpm++);	
+		stage.addActor(moreBpmButton);
+	}
+	
+	private void initLessBpmButton() {
+		lessBpmButton = new LessBpm("-", skin, () -> bpm--);
+		stage.addActor(lessBpmButton);
+	}
+	
+	private void initBpmLabel() {
+		bpmLabel = new Label("", skin);
+		bpmLabel.setBounds(190, 550, 100, 50);
+		bpmLabel.setAlignment(240);
+		stage.addActor(bpmLabel);	
 	}
 	
 	private void initchangeBpmButton() {
@@ -88,87 +126,21 @@ public class MainScreen extends AbstractScreen{
 			}
 		});
 	}
+	
+	private void initSlider() {
+		slider = new Slider(MainScreen.MIN_BPM, MainScreen.MAX_BPM, 1, false, skin);
+		slider.setBounds(90, 500, 300, 50);
+		stage.addActor(slider);
+		slider.setValue(getBpm());
+		
+		slider.addListener(new ChangeListener() {	
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				setBpm((int)slider.getValue());			
+			}
+		});
+	}
 
-	private void initBpmLabel() {
-		bpmLabel = new Label("", skin);
-		bpmLabel.setX(190);
-		bpmLabel.setY(600);
-		bpmLabel.setWidth(100);
-		bpmLabel.setHeight(50);
-		stage.addActor(bpmLabel);	
-	}
-	
-	private void initLessBpmButton() {
-		lessBpmButton = new LessBpm("-", skin);
-		stage.addActor(lessBpmButton);
-		
-		lessBpmButton.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {			
-				bpm--;				
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});		
-	}
-	
-	private void initMoreBpmButton() {
-		moreBpmButton = new MoreBpm("+", skin);
-		stage.addActor(moreBpmButton);
-		
-		moreBpmButton.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {			
-				bpm++;
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-	}
-	
-	private void initStopButton() {
-		stopButton = new StopButton();
-		stage.addActor(stopButton);
-		stopButton.setVisible(false);
-		
-		stopButton.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				playButton.setTouchable(Touchable.enabled);
-				Timer.instance().clear();
-				stopButton.setVisible(false);
-				playButton.setVisible(true);
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-	}
-	
-	private void initPlayButton() {
-		playButton = new PlayButton();
-		stage.addActor(playButton);
-		playButton.setVisible(true);
-		
-		playButton.addListener(new ClickListener(){
-			
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				setButtonClicked(true);
-				playButton.setTouchable(Touchable.disabled);
-				playButton.setVisible(false);
-				stopButton.setVisible(true);
-					Timer.schedule(new Task() {
-					
-						@Override
-						public void run() {
-							bpmSound.play();
-						}
-					}, 0, (60/getBpm()));
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-	}
-	
-	public void addBpm(){
-		bpm++;
-	}
-	
 	@Override
 	public void render(float delta) {
 		update();
@@ -179,7 +151,7 @@ public class MainScreen extends AbstractScreen{
 	}
 	
 	public void update(){
-		getBpmLabel().setText(""+ (int)getBpm());
+		getBpmLabel().setText("BPM: "+ (int)getBpm());
 		checkMoreBpmButton();
 		checkLessBpmButton();
 		stage.act();
@@ -207,6 +179,7 @@ public class MainScreen extends AbstractScreen{
 		}
 	}
 	
+	// getters & setters
 	public void setBpmLabel(Label bpmLabel){
 		this.bpmLabel = bpmLabel;
 	}

@@ -3,28 +3,31 @@ package com.mygdx.metronome.ui;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class MoreBpm extends TextButton{
+public class DigitButton extends TextButton{
 	
-	public MoreBpm(String text, Skin skin, final ClickCallBack callBack){
+	private TextField txf;
+	
+	public DigitButton(final String text, Skin skin, final TextField txf){
 		super(text, skin);
-		init(callBack);
-	}
-	
-	private void init(final ClickCallBack callBack) {
-		this.setWidth(120);
-		this.setHeight(90);
-		this.setX(320);
-		this.setY(150);
+		this.txf=txf;
+		this.setWidth(50);
+		this.setHeight(50);
 		
 		this.addListener(new ClickListener(){
 			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				callBack.onClick();
+				txf.setText(txf.getText()+text);
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
 	}
+	
+	public TextField getTxf(){
+		return txf;
+	}
+
 }

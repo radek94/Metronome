@@ -1,7 +1,5 @@
 package com.mygdx.metronome.screens;
 
-import org.omg.CORBA.portable.ValueOutputStream;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -10,14 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.metronome.MainMenu;
+import com.mygdx.metronome.ui.DigitButton;
 
 public class BpmScreen extends AbstractScreen{
 	
-	private TextButton okButton, cancelButton, backspaceButton, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9;;
+	private TextButton okButton, cancelButton, backspaceButton;
 
+	private DigitButton digitButton0, digitButton1, digitButton2, digitButton3, digitButton4, digitButton5, digitButton6, digitButton7, digitButton8, digitButton9;
+	
 	private TextField txfBpmChange;
-	private MainScreen bpmChange;
-	private MainScreen bpmLabelKeyboard;
 	private Skin skin;
 	
 	private float bpmKeyboard;
@@ -32,8 +31,60 @@ public class BpmScreen extends AbstractScreen{
 		initOkButton();	
 		initCancelButton();
 		initTxfBpmChange();
-		initDigitButtons();
 		initBackspaceButton();
+		initDigitButtons();
+	}
+
+	private void initDigitButtons() {
+		digitButton1 = new DigitButton("1", skin, txfBpmChange);
+		digitButton1.setX(65);
+		digitButton1.setY(520);
+		stage.addActor(digitButton1);
+		
+		digitButton2 = new DigitButton("2", skin, txfBpmChange);
+		digitButton2.setX(215);
+		digitButton2.setY(520);
+		stage.addActor(digitButton2);
+		
+		digitButton3 = new DigitButton("3", skin, txfBpmChange);
+		digitButton3.setX(365);
+		digitButton3.setY(520);
+		stage.addActor(digitButton3);
+		
+		digitButton4 = new DigitButton("4", skin, txfBpmChange);
+		digitButton4.setX(65);
+		digitButton4.setY(370);
+		stage.addActor(digitButton4);
+		
+		digitButton5 = new DigitButton("5", skin, txfBpmChange);
+		digitButton5.setX(215);
+		digitButton5.setY(370);
+		stage.addActor(digitButton5);
+		
+		digitButton6 = new DigitButton("6", skin, txfBpmChange);
+		digitButton6.setX(365);
+		digitButton6.setY(370);
+		stage.addActor(digitButton6);
+		
+		digitButton7 = new DigitButton("7", skin, txfBpmChange);
+		digitButton7.setX(65);
+		digitButton7.setY(220);
+		stage.addActor(digitButton7);
+		
+		digitButton8 = new DigitButton("8", skin, txfBpmChange);
+		digitButton8.setX(215);
+		digitButton8.setY(220);
+		stage.addActor(digitButton8);
+		
+		digitButton9 = new DigitButton("9", skin, txfBpmChange);
+		digitButton9.setX(365);
+		digitButton9.setY(220);
+		stage.addActor(digitButton9);
+		
+		digitButton0 = new DigitButton("0", skin, txfBpmChange);
+		digitButton0.setX(215);
+		digitButton0.setY(70);
+		stage.addActor(digitButton0);
 	}
 
 	private void initBackspaceButton() {
@@ -54,120 +105,7 @@ public class BpmScreen extends AbstractScreen{
 				}
 				return super.touchDown(event, x, y, pointer, button);
 			}		
-		});
-		
-	}
-
-	private void initDigitButtons() {
-		button1 = new TextButton("1", skin);
-		button1.setBounds(65, 520, 50, 50);
-		stage.addActor(button1);
-		button1.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"1");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button2 = new TextButton("2", skin);
-		button2.setBounds(215, 520, 50, 50);
-		stage.addActor(button2);
-		button2.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"2");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button3 = new TextButton("3", skin);
-		button3.setBounds(365, 520, 50, 50);
-		stage.addActor(button3);
-		button3.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"3");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button4 = new TextButton("4", skin);
-		button4.setBounds(65, 370, 50, 50);
-		stage.addActor(button4);
-		button4.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"4");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button5 = new TextButton("5", skin);
-		button5.setBounds(215, 370, 50, 50);
-		stage.addActor(button5);
-		button5.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"5");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button6 = new TextButton("6", skin);
-		button6.setBounds(365, 370, 50, 50);
-		stage.addActor(button6);
-		button6.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"6");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button7 = new TextButton("7", skin);
-		button7.setBounds(65, 220, 50, 50);
-		stage.addActor(button7);
-		button7.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"7");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button8 = new TextButton("8", skin);
-		button8.setBounds(215, 220, 50, 50);
-		stage.addActor(button8);
-		button8.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"8");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button9 = new TextButton("9", skin);
-		button9.setBounds(365, 220, 50, 50);
-		stage.addActor(button9);
-		button9.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"9");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		
-		button0 = new TextButton("0", skin);
-		button0.setBounds(215, 70, 50, 50);
-		stage.addActor(button0);
-		button0.addListener(new ClickListener(){
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				txfBpmChange.setText(txfBpmChange.getText()+"0");
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
+		});	
 	}
 
 	private void initTxfBpmChange() {
@@ -205,8 +143,7 @@ public class BpmScreen extends AbstractScreen{
 			}
 		});
 	}
-
-		
+	
 	private void checkTextField(){
 		if(!txfBpmChange.getText().equals("")){
 			float bpmDigits = Float.parseFloat(txfBpmChange.getText());
@@ -225,7 +162,6 @@ public class BpmScreen extends AbstractScreen{
 		}
 	}
 	
-
 	@Override
 	public void render(float delta) {
 		update();
@@ -239,5 +175,4 @@ public class BpmScreen extends AbstractScreen{
 		stage.act();
 		checkTextField();
 	}
-
 }

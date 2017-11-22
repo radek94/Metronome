@@ -35,7 +35,7 @@ public class MainMenu extends Game{
 		
 	@Override
 	public void create () {
-		this.setScreen(new MainScreen(this, 60));
+		this.setScreen(new MainScreen(this, 120));
 	}
 
 	public boolean isPaused() {
