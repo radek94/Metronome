@@ -17,8 +17,8 @@ public class StopButton extends Button{
 	private void init(final ClickCallBack callBack) {
 		this.setWidth(80);
 		this.setHeight(50);
-		this.setX(180);
-		this.setY(300);
+		this.setX(190);
+		this.setY(240);
 		
 		this.addListener(new ClickListener(){
 			

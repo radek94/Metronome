@@ -17,17 +17,21 @@ public abstract class AbstractScreen implements Screen{
 	protected Stage stage;
 	
 	protected SpriteBatch spriteBatch;
+	protected Skin skin;
+	protected Sound bpmSound;
 	
 	public AbstractScreen(MainMenu menu){
 		this.menu = menu;
 		spriteBatch = new SpriteBatch();
+		skin = new Skin(Gdx.files.internal("Holo-dark-mdpi.json"));
+		bpmSound = Gdx.audio.newSound(Gdx.files.internal("bpm.wav"));
 		stage = new Stage(new StretchViewport(MainMenu.WIDTH, MainMenu.HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 	}
 	
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(139/255f, 69/255f, 19/255f, 0);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);	
 	}
 	

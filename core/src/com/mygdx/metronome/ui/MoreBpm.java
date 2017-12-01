@@ -16,7 +16,7 @@ public class MoreBpm extends TextButton{
 		this.setWidth(120);
 		this.setHeight(90);
 		this.setX(320);
-		this.setY(150);
+		this.setY(220);
 		
 		this.addListener(new ClickListener(){
 			

@@ -16,7 +16,7 @@ public class LessBpm extends TextButton{
 		this.setWidth(120);
 		this.setHeight(90);
 		this.setX(40);
-		this.setY(150);
+		this.setY(220);
 		
 		this.addListener(new ClickListener(){
 			

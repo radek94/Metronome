@@ -8,11 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class DigitButton extends TextButton{
 	
-	private TextField txf;
-	
 	public DigitButton(final String text, Skin skin, final TextField txf){
 		super(text, skin);
-		this.txf=txf;
 		this.setWidth(50);
 		this.setHeight(50);
 		
@@ -25,9 +22,4 @@ public class DigitButton extends TextButton{
 			}
 		});
 	}
-	
-	public TextField getTxf(){
-		return txf;
-	}
-
 }
